@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>在线药品收费系统 - 课程设计报告</title>
+<style>
+    @page {
+        size: A4;
+        margin: 2.5cm 2cm;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: "宋体", "SimSun", "Times New Roman", serif;
+        font-size: 14px;
+        line-height: 1.8;
+        color: #333;
+        background: #fff;
+    }
+
+    /* ===== 封面 ===== */
+    .cover {
+        text-align: center;
+        padding-top: 120px;
+        page-break-after: always;
+    }
+    .cover .university { font-size: 28px; font-weight: bold; letter-spacing: 6px; margin-bottom: 10px; }
+    .cover .college { font-size: 18px; margin-bottom: 80px; letter-spacing: 3px; }
+    .cover .report-title {
+        font-size: 36px; font-weight: bold; color: #1a1a1a;
+        margin-bottom: 20px; letter-spacing: 4px;
+    }
+    .cover .report-subtitle { font-size: 18px; color: #555; margin-bottom: 100px; letter-spacing: 2px; }
+    .cover .info-table {
+        width: 400px; margin: 0 auto; font-size: 16px;
+        border-collapse: collapse;
+    }
+    .cover .info-table td {
+        padding: 10px 16px; border-bottom: 1px solid #ccc;
+    }
+    .cover .info-table td:first-child {
+        text-align: right; font-weight: bold; width: 100px; color: #444;
+    }
+    .cover .info-table td:last-child {
+        text-align: left; color: #222;
+    }
+    .cover .date { margin-top: 80px; font-size: 16px; color: #666; }
+
+    /* ===== 目录 ===== */
+    .toc { page-break-after: always; padding: 40px 0; }
+    .toc h2 { font-size: 24px; text-align: center; margin-bottom: 30px; letter-spacing: 4px; }
+    .toc ul { list-style: none; padding-left: 20px; }
+    .toc li { padding: 5px 0; font-size: 15px; }
+    .toc .sub { padding-left: 30px; font-size: 14px; color: #555; }
+
+    /* ===== 正文 ===== */
+    .content { padding: 0 10px; }
+    h1 {
+        font-size: 22px; font-weight: bold; text-align: center;
+        margin: 40px 0 30px; letter-spacing: 3px;
+        page-break-before: always;
+    }
+    h1:first-of-type { page-break-before: avoid; }
+    h2 {
+        font-size: 18px; font-weight: bold; margin: 30px 0 15px;
+        border-left: 4px solid #4f6ef7; padding-left: 12px;
+    }
+    h3 {
+        font-size: 15px; font-weight: bold; margin: 20px 0 10px;
+        color: #222;
+    }
+    p { text-indent: 2em; margin-bottom: 8px; text-align: justify; }
+    p.no-indent { text-indent: 0; }
+
+    table.data-table {
+        width: 100%; border-collapse: collapse; margin: 12px 0 20px;
+        font-size: 13px;
+    }
+    table.data-table th, table.data-table td {
+        border: 1px solid #999; padding: 6px 10px; text-align: center;
+    }
+    table.data-table th {
+        background: #4f6ef7; color: #fff; font-weight: bold;
+    }
+    table.data-table tr:nth-child(even) { background: #f5f7ff; }
+
+    table.info-table {
+        width: 100%; border-collapse: collapse; margin: 12px 0 20px;
+        font-size: 13px;
+    }
+    table.info-table th, table.info-table td {
+        border: 1px solid #bbb; padding: 6px 10px;
+    }
+    table.info-table th {
+        background: #eef2ff; font-weight: bold; text-align: center; width: 140px;
+    }
+    table.info-table td { text-align: left; }
+
+    pre {
+        background: #f6f8fa; border: 1px solid #e1e4e8;
+        border-radius: 6px; padding: 14px 16px;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 12.5px; line-height: 1.6;
+        overflow-x: auto; margin: 10px 0 16px;
+        white-space: pre-wrap; word-wrap: break-word;
+    }
+    code {
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 12.5px;
+    }
+    .code-title {
+        font-size: 13px; font-weight: bold; color: #4f6ef7;
+        margin: 16px 0 4px;
+    }
+
+    .note {
+        background: #fffbe6; border-left: 4px solid #f59e0b;
+        padding: 10px 16px; margin: 12px 0; font-size: 13px;
+    }
+
+    .figure-caption {
+        text-align: center; font-size: 13px; color: #666;
+        margin: 6px 0 20px; font-style: italic;
+    }
+
+    .page-break { page-break-before: always; }
+
+    ul.bullet { list-style: disc; padding-left: 40px; margin: 8px 0 16px; }
+    ul.bullet li { text-indent: 0; margin-bottom: 4px; }
+    ol.numbered { list-style: decimal; padding-left: 40px; margin: 8px 0 16px; }
+    ol.numbered li { text-indent: 0; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<!-- ==================== 封面 ==================== -->
+<div class="cover">
+    <div class="university">江 苏 大 学</div>
+    <div class="college">管 理 学 院</div>
+    <div class="report-title">课 程 设 计 报 告</div>
+    <div class="report-subtitle">在线药品收费系统</div>
+    <table class="info-table">
+        <tr><td>课程名称</td><td>Web应用开发</td></tr>
+        <tr><td>专业班级</td><td>信息管理与信息系统</td></tr>
+        <tr><td>姓　　名</td><td>戚丛威</td></tr>
+        <tr><td>学　　号</td><td>2024级</td></tr>
+        <tr><td>指导教师</td><td>　　　　　　　　</td></tr>
+    </table>
+    <div class="date">2026 年 6 月</div>
+</div>
+
+<!-- ==================== 目录 ==================== -->
+<div class="toc">
+    <h2>目　　录</h2>
+    <ul>
+        <li>一、需求分析</li>
+        <li class="sub">1.1 项目背景</li>
+        <li class="sub">1.2 功能需求</li>
+        <li class="sub">1.3 非功能需求</li>
+        <li>二、系统设计</li>
+        <li class="sub">2.1 技术架构</li>
+        <li class="sub">2.2 系统功能模块</li>
+        <li class="sub">2.3 系统流程设计</li>
+        <li>三、数据库设计</li>
+        <li class="sub">3.1 E-R关系模型</li>
+        <li class="sub">3.2 数据表结构</li>
+        <li class="sub">3.3 初始化数据</li>
+        <li>四、详细设计与实现</li>
+        <li class="sub">4.1 Model层（实体类）</li>
+        <li class="sub">4.2 DAO层（数据访问）</li>
+        <li class="sub">4.3 Controller层（控制器）</li>
+        <li class="sub">4.4 Filter层（过滤器）</li>
+        <li class="sub">4.5 View层（JSP页面）</li>
+        <li class="sub">4.6 前端设计</li>
+        <li>五、关键技术实现</li>
+        <li class="sub">5.1 事务处理</li>
+        <li class="sub">5.2 密码加密</li>
+        <li class="sub">5.3 分页与搜索</li>
+        <li class="sub">5.4 权限控制</li>
+        <li>六、系统测试</li>
+        <li>七、总结与体会</li>
+        <li>八、参考文献</li>
+    </ul>
+</div>
+
+<!-- ==================== 正文 ==================== -->
+<div class="content">
+
+<!-- ========== 第一章 ========== -->
+<h1>一、需求分析</h1>
+
+<h2>1.1 项目背景</h2>
+<p>随着互联网技术的快速发展和医疗信息化进程的推进，传统的线下药品购买模式已难以满足人们日益增长的便捷就医需求。在线药品收费系统旨在为用户提供一个安全、便捷、高效的药品浏览与在线交易平台，实现药品信息的数字化管理、在线选购、购物车管理、订单处理等核心功能。</p>
+<p>本系统采用 Java Web 技术栈开发，基于 MVC 设计模式，综合运用 Servlet、JSP、JDBC、MySQL、Filter 等技术，是一个完整的前后端分离架构的 Web 应用系统。通过本课程设计，旨在深入理解并实践 Java Web 开发的全流程，掌握 MVC 架构的设计思想，提升软件工程实践能力。</p>
+
+<h2>1.2 功能需求</h2>
+<p>系统面向两类用户角色：普通用户和管理员，分别提供不同的功能服务。</p>
+
+<h3>1.2.1 普通用户功能</h3>
+<table class="info-table">
+    <tr><th>功能模块</th><td>功能描述</td></tr>
+    <tr><th>用户注册</th><td>填写用户名、密码、真实姓名、手机号、地址等信息完成注册，密码使用MD5加密存储</td></tr>
+    <tr><th>用户登录</th><td>通过用户名和密码登录系统，Session保持登录状态</td></tr>
+    <tr><th>药品浏览</th><td>查看全部药品列表，支持按分类筛选、关键词搜索、分页浏览</td></tr>
+    <tr><th>药品详情</th><td>查看药品的详细信息，包括规格、生产厂家、功效描述、处方药标识等</td></tr>
+    <tr><th>购物车管理</th><td>将药品加入购物车，修改数量、删除商品、清空购物车</td></tr>
+    <tr><th>订单管理</th><td>从购物车结算下单或直接购买，查看订单列表、订单详情，支持付款和取消订单</td></tr>
+    <tr><th>个人信息</th><td>修改个人信息和密码</td></tr>
+</table>
+
+<h3>1.2.2 管理员功能</h3>
+<table class="info-table">
+    <tr><th>功能模块</th><td>功能描述</td></tr>
+    <tr><th>数据看板</th><td>展示用户总数、药品总数、订单总数、今日销售总额等统计数据</td></tr>
+    <tr><th>药品管理</th><td>药品的增删改查，包括名称、分类、价格、库存、规格、生产厂家、处方药标识等</td></tr>
+    <tr><th>用户管理</th><td>查看所有用户，添加用户、编辑用户信息、重置密码、删除用户、修改用户角色</td></tr>
+    <tr><th>订单管理</th><td>查看所有用户订单，更新订单状态（发货、完成等）</td></tr>
+    <tr><th>销售统计</th><td>查看总销售额、今日销售额、订单统计、药品销量排行</td></tr>
+</table>
+
+<h2>1.3 非功能需求</h2>
+<table class="info-table">
+    <tr><th>安全性</th><td>用户密码MD5加密存储；通过Filter实现统一编码过滤、登录验证、管理员权限控制</td></tr>
+    <tr><th>可用性</th><td>友好的用户界面，响应式布局适配不同设备；表单验证防止非法输入</td></tr>
+    <tr><th>数据一致性</th><td>订单创建采用数据库事务，确保订单、明细、库存、购物车的数据一致性</td></tr>
+    <tr><th>可维护性</th><td>MVC分层架构，代码结构清晰；公共模块抽取（header/footer/head），减少重复代码</td></tr>
+</table>
+
+
+<!-- ========== 第二章 ========== -->
+<h1>二、系统设计</h1>
+
+<h2>2.1 技术架构</h2>
+<p>本系统采用经典的 MVC（Model-View-Controller）设计模式，技术选型如下：</p>
+<table class="info-table">
+    <tr><th>技术层</th><td>技术选型</td><th>说明</td></tr>
+    <tr><th>开发语言</th><td>Java 8</td><td>JDK 1.8，企业级稳定版本</td></tr>
+    <tr><th>Web服务器</th><td>Apache Tomcat 9.0.21</th><td>开源Servlet容器，支持Servlet 4.0规范</td></tr>
+    <tr><th>数据库</th><td>MySQL 8.0</th><td>关系型数据库，支持事务、外键约束</td></tr>
+    <tr><th>JDBC驱动</th><td>mysql-connector-java-5.1.49</th><td>MySQL官方JDBC驱动</td></tr>
+    <tr><th>前端技术</th><td>JSP + CSS3 + Font Awesome</th><td>服务端渲染，CSS变量体系，图标库</td></tr>
+    <tr><th>设计模式</th><td>MVC + DAO</th><td>Model-View-Controller + Data Access Object</td></tr>
+    <tr><th>构建方式</th><td>传统lib目录</th><td>非Maven，JAR包直接放入WEB-INF/lib</td></tr>
+</table>
+
+<p>系统整体架构分为四层：</p>
+<pre>
+┌─────────────────────────────────────────────┐
+│              View 层（JSP 页面）              │
+│   index.jsp / login.jsp / medicine/*.jsp     │
+│   cart/*.jsp / order/*.jsp / admin/*.jsp     │
+├─────────────────────────────────────────────┤
+│           Controller 层（Servlet）            │
+│   LoginServlet / CartServlet / OrderServlet  │
+│   MedicineListServlet / Admin*Servlet        │
+├─────────────────────────────────────────────┤
+│         Filter 层（过滤器）                   │
+│   EncodingFilter / AuthFilter / AdminFilter  │
+│   CartFilter                                 │
+├─────────────────────────────────────────────┤
+│              DAO 层（数据访问）                │
+│   UserDAO / MedicineDAO / OrderDAO           │
+│   CartDAO / CategoryDAO                      │
+├─────────────────────────────────────────────┤
+│           Model 层（实体类 + 工具）            │
+│   User / Medicine / Order / OrderItem        │
+│   CartItem / Category / DBUtil / MD5Util     │
+├─────────────────────────────────────────────┤
+│              MySQL 8.0 数据库                 │
+│   users / medicines / orders / order_items   │
+│   cart_items / categories                    │
+└─────────────────────────────────────────────┘
+</pre>
+
+<h2>2.2 系统功能模块</h2>
+<p>系统按功能划分为以下模块：</p>
+
+<h3>2.2.1 前台用户模块</p>
+<pre>
+在线药品收费系统
+├── 前台用户模块
+│   ├── 用户认证（注册/登录/退出）
+│   ├── 药品浏览（列表/详情/搜索/分类筛选）
+│   ├── 购物车（添加/修改数量/删除/清空）
+│   └── 订单管理（结算下单/直接购买/付款/取消/查看详情）
+└── 后台管理模块
+    ├── 数据看板（用户/药品/订单/销售额统计）
+    ├── 药品管理（CRUD + 分类）
+    ├── 用户管理（CRUD + 角色分配 + 密码重置）
+    ├── 订单管理（查看/状态更新）
+    └── 销售统计（总销售额/今日销售/药品排行）
+</pre>
+
+<h3>2.2.2 包结构设计</h3>
+<table class="info-table">
+    <tr><th>包名</th><td>职责</td><td>类数量</td></tr>
+    <tr><th>com.medicine.model</th><td>实体类（JavaBean）</td><td>6个</td></tr>
+    <tr><th>com.medicine.dao</th><td>数据访问层（JDBC操作）</td><td>5个</td></tr>
+    <tr><th>com.medicine.controller</th><td>控制器（Servlet）</td><td>12个</td></tr>
+    <tr><th>com.medicine.filter</th><td>过滤器（编码/权限/购物车）</td><td>3个</td></tr>
+    <tr><th>com.medicine.util</th><td>工具类（数据库连接/MD5加密）</td><td>2个</td></tr>
+</table>
+
+<h2>2.3 系统流程设计</h2>
+
+<h3>2.3.1 用户购物流程</h3>
+<pre>
+用户登录 → 浏览药品列表 → 选择药品 → 加入购物车/直接购买
+    → 查看购物车 → 确认收货信息 → 提交订单
+    → 订单生成（事务：减库存+清空购物车） → 付款
+    → 查看订单状态 → 可取消订单（退库存）
+</pre>
+
+<h3>2.3.2 请求处理流程</h3>
+<pre>
+HTTP 请求
+  → EncodingFilter（设置UTF-8编码）
+  → CartFilter（设置购物车数量到request）
+  → AuthFilter（检查是否需要登录）
+  → AdminFilter（检查管理员权限，仅/admin/*路径）
+  → Servlet（Controller处理业务逻辑）
+  → DAO（访问数据库）
+  → JSP（View渲染响应）
+  → HTTP 响应
+</pre>
+
+
+<!-- ========== 第三章 ========== -->
+<h1>三、数据库设计</h1>
+
+<h2>3.1 E-R关系模型</h2>
+<p>系统数据库 medicine_db 包含6张数据表，各表之间的关系如下：</p>
+<pre>
+users（用户表）
+  │ 1:N
+  ├── cart_items（购物车表） ──── N:1 ── medicines（药品表）
+  │                                    │ N:1
+  │                                   categories（分类表）
+  │ 1:N
+  └── orders（订单表）
+        │ 1:N
+        └── order_items（订单明细表） ── N:1 ── medicines
+</pre>
+<p>核心关系说明：一个用户可以拥有多个购物车项和多个订单；一个订单包含多个订单明细；一种药品属于一个分类；订单明细中保存药品名称快照，确保历史订单数据不受药品信息修改影响。</p>
+
+<h2>3.2 数据表结构</h2>
+
+<h3>3.2.1 用户表（users）</h3>
+<table class="data-table">
+    <tr><th>字段名</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>用户ID</td></tr>
+    <tr><td>username</td><td>VARCHAR(50)</td><td>UNIQUE, NOT NULL</td><td>用户名</td></tr>
+    <tr><td>password</td><td>VARCHAR(100)</td><td>NOT NULL</td><td>密码（MD5加密）</td></tr>
+    <tr><td>realname</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>真实姓名</td></tr>
+    <tr><td>phone</td><td>VARCHAR(20)</td><td>默认空</td><td>手机号</td></tr>
+    <tr><td>address</td><td>VARCHAR(200)</td><td>默认空</td><td>收货地址</td></tr>
+    <tr><td>role</td><td>VARCHAR(20)</td><td>默认'user'</td><td>角色：admin/user</td></tr>
+    <tr><td>create_time</td><td>DATETIME</td><td>默认当前时间</td><td>注册时间</td></tr>
+</table>
+
+<h3>3.2.2 药品分类表（categories）</h3>
+<table class="data-table">
+    <tr><th>字段名</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>分类ID</td></tr>
+    <tr><td>name</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>分类名称</td></tr>
+    <tr><td>description</td><td>VARCHAR(200)</td><td>默认空</td><td>分类描述</td></tr>
+</table>
+
+<h3>3.2.3 药品表（medicines）</h3>
+<table class="data-table">
+    <tr><th>字段名</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>药品ID</td></tr>
+    <tr><td>name</td><td>VARCHAR(100)</td><td>NOT NULL</td><td>药品名称</td></tr>
+    <tr><td>category_id</td><td>INT</td><td>FOREIGN KEY</td><td>分类ID（关联categories）</td></tr>
+    <tr><td>price</td><td>DECIMAL(10,2)</td><td>NOT NULL</td><td>单价</td></tr>
+    <tr><td>stock</td><td>INT</td><td>默认0</td><td>库存数量</td></tr>
+    <tr><td>specification</td><td>VARCHAR(100)</td><td>默认空</td><td>规格（如10mg*12片）</td></tr>
+    <tr><td>manufacturer</td><td>VARCHAR(100)</td><td>默认空</td><td>生产厂家</td></tr>
+    <tr><td>description</td><td>TEXT</td><td>可为空</td><td>药品描述/功效</td></tr>
+    <tr><td>is_prescription</td><td>TINYINT</td><td>默认0</td><td>是否处方药：0否 1是</td></tr>
+    <tr><td>create_time</td><td>DATETIME</td><td>默认当前时间</td><td>添加时间</td></tr>
+</table>
+
+<h3>3.2.4 购物车表（cart_items）</h3>
+<table class="data-table">
+    <tr><th>字段名</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>购物车项ID</td></tr>
+    <tr><td>user_id</td><td>INT</td><td>FOREIGN KEY, NOT NULL</td><td>用户ID</td></tr>
+    <tr><td>medicine_id</td><td>INT</td><td>FOREIGN KEY, NOT NULL</td><td>药品ID</td></tr>
+    <tr><td>quantity</td><td>INT</td><td>默认1</td><td>数量</td></tr>
+</table>
+
+<h3>3.2.5 订单表（orders）</h3>
+<table class="data-table">
+    <tr><th>字段名</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>订单ID</td></tr>
+    <tr><td>order_no</td><td>VARCHAR(50)</td><td>UNIQUE, NOT NULL</td><td>订单编号</td></tr>
+    <tr><td>user_id</td><td>INT</td><td>FOREIGN KEY, NOT NULL</td><td>用户ID</td></tr>
+    <tr><td>total_amount</td><td>DECIMAL(10,2)</td><td>NOT NULL</td><td>订单总金额</td></tr>
+    <tr><td>status</td><td>VARCHAR(20)</td><td>默认'pending'</td><td>状态：pending/paid/completed/cancelled</td></tr>
+    <tr><td>receiver_name</td><td>VARCHAR(50)</td><td>默认空</td><td>收货人姓名</td></tr>
+    <tr><td>receiver_phone</td><td>VARCHAR(20)</td><td>默认空</td><td>收货人电话</td></tr>
+    <tr><td>receiver_address</td><td>VARCHAR(200)</td><td>默认空</td><td>收货地址</td></tr>
+    <tr><td>create_time</td><td>DATETIME</td><td>默认当前时间</td><td>下单时间</td></tr>
+    <tr><td>pay_time</td><td>DATETIME</td><td>可为空</td><td>付款时间</td></tr>
+</table>
+
+<h3>3.2.6 订单明细表（order_items）</h3>
+<table class="data-table">
+    <tr><th>字段名</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>明细ID</td></tr>
+    <tr><td>order_id</td><td>INT</td><td>FOREIGN KEY, NOT NULL</td><td>订单ID</td></tr>
+    <tr><td>medicine_id</td><td>INT</td><td>NOT NULL</td><td>药品ID</td></tr>
+    <tr><td>medicine_name</td><td>VARCHAR(100)</td><td>NOT NULL</td><td>药品名称（快照）</td></tr>
+    <tr><td>quantity</td><td>INT</td><td>NOT NULL</td><td>购买数量</td></tr>
+    <tr><td>price</td><td>DECIMAL(10,2)</td><td>NOT NULL</td><td>购买时单价</td></tr>
+</table>
+
+<div class="note">
+<strong>设计说明：</strong>订单明细表中保存了 medicine_name（药品名称快照）和 price（购买时单价），而非仅引用 medicine_id。这样即使药品后续被修改或删除，历史订单数据依然保持准确，这是电商系统的常见设计模式。
+</div>
+
+<h2>3.3 初始化数据</h2>
+<p>系统预置了以下测试数据：</p>
+<ul class="bullet">
+    <li>管理员账号：admin / admin123</li>
+    <li>测试用户：test / test123</li>
+    <li>6个药品分类：感冒用药、消化系统、心血管、抗生素、维生素与营养、外用药品</li>
+    <li>15种药品数据：包含布洛芬缓释胶囊、连花清瘟胶囊、阿莫西林胶囊等常见药品</li>
+</ul>
+
+
+<!-- ========== 第四章 ========== -->
+<h1>四、详细设计与实现</h1>
+
+<h2>4.1 Model层（实体类）</h2>
+<p>Model层包含6个实体类，对应数据库中的6张表。每个实体类遵循JavaBean规范，提供私有字段和公有的getter/setter方法。</p>
+
+<table class="data-table">
+    <tr><th>类名</th><th>对应表</th><th>核心字段</th><th>特殊方法</th></tr>
+    <tr><td>User</td><td>users</td><td>id, username, password, realname, role</td><td>toString()</td></tr>
+    <tr><td>Medicine</td><td>medicines</td><td>id, name, price, stock, isPrescription</td><td>getPrescriptionLabel()</td></tr>
+    <tr><td>Order</td><td>orders</td><td>id, orderNo, totalAmount, status, items</td><td>getStatusName()</td></tr>
+    <tr><td>OrderItem</td><td>order_items</td><td>medicineName, quantity, price</td><td>getSubtotal()</td></tr>
+    <tr><td>CartItem</td><td>cart_items</td><td>medicineName, medicinePrice, quantity</td><td>getSubtotal()</td></tr>
+    <tr><td>Category</td><td>categories</td><td>id, name, description</td><td>—</td></tr>
+</table>
+
+<p>以下为药品实体类 Medicine 的核心代码：</p>
+<div class="code-title">Medicine.java — 药品实体类</div>
+<pre>
+package com.medicine.model;
+
+public class Medicine {
+    private int id;
+    private String name;
+    private int categoryId;
+    private String categoryName;  // 关联查询时的分类名称
+    private double price;
+    private int stock;
+    private String specification;
+    private String manufacturer;
+    private String description;
+    private int isPrescription;
+    private String createTime;
+
+    // getter/setter 省略...
+
+    /**
+     * 获取处方药标签文本
+     */
+    public String getPrescriptionLabel() {
+        return isPrescription == 1 ? "处方药" : "非处方药(OTC)";
+    }
+}
+</pre>
+
+<p>Order 实体类中包含订单明细列表，体现了聚合关系：</p>
+<div class="code-title">Order.java — 订单实体类（含状态转换）</div>
+<pre>
+public class Order {
+    private int id;
+    private String orderNo;
+    private int userId;
+    private double totalAmount;
+    private String status;  // pending/paid/completed/cancelled
+    private List&lt;OrderItem&gt; items = new ArrayList&lt;&gt;();
+
+    /**
+     * 获取状态中文名
+     */
+    public String getStatusName() {
+        switch (status) {
+            case "pending":   return "待付款";
+            case "paid":      return "已付款";
+            case "completed": return "已完成";
+            case "cancelled": return "已取消";
+            default:          return status;
+        }
+    }
+}
+</pre>
+
+<h2>4.2 DAO层（数据访问）</h2>
+<p>DAO层封装了所有数据库操作，使用JDBC的PreparedStatement防止SQL注入，采用try-with-resources自动关闭资源。共5个DAO类：</p>
+
+<table class="data-table">
+    <tr><th>类名</th><th>主要方法</th><th>技术特点</th></tr>
+    <tr><td>UserDAO</td><td>register, login, findById, findAll, update, delete, resetPassword</td><td>MD5加密验证</td></tr>
+    <tr><td>MedicineDAO</td><td>findAll, findByCategory, search, add, update, delete, updateStock</td><td>分页查询、库存原子操作</td></tr>
+    <tr><td>OrderDAO</td><td>createOrder, createDirectOrder, findByUser, updateStatus, getSalesByMedicine</td><td>JDBC事务、批量操作</td></tr>
+    <tr><td>CartDAO</td><td>add, findByUser, updateQuantity, delete, clearByUser</td><td>存在则累加数量</td></tr>
+    <tr><td>CategoryDAO</td><td>findAll, findById, add, update, delete</td><td>基础CRUD</td></tr>
+</table>
+
+<h3>4.2.1 DBUtil — 数据库连接工具类</h3>
+<p>DBUtil 封装了数据库连接的获取和资源关闭逻辑，采用静态代码块加载JDBC驱动：</p>
+<div class="code-title">DBUtil.java — 数据库连接工具</div>
+<pre>
+package com.medicine.util;
+
+import java.sql.*;
+
+public class DBUtil {
+    private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3306/medicine_db"
+        + "?useUnicode=true&characterEncoding=utf-8"
+        + "&useSSL=false&serverTimezone=Asia/Shanghai"
+        + "&allowPublicKeyRetrieval=true";
+    private static final String USER = "root";
+    private static final String PASSWORD = cfg("medicine.db.password", "MEDICINE_DB_PASSWORD", "");
+
+    static {
+        try {
+            Class.forName(DRIVER);
+        } catch (ClassNotFoundException e) {
+            System.err.println("MySQL JDBC驱动加载失败: " + e.getMessage());
+        }
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public static void close(Connection conn, Statement stmt, ResultSet rs) {
+        try { if (rs != null) rs.close(); } catch (SQLException e) {}
+        try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
+        try { if (conn != null) conn.close(); } catch (SQLException e) {}
+    }
+}
+</pre>
+
+<h3>4.2.2 MedicineDAO — 分页查询与库存操作</h3>
+<p>MedicineDAO 实现了分页查询、分类筛选和关键词搜索功能，库存更新采用原子操作确保并发安全：</p>
+<div class="code-title">MedicineDAO.java — 分页查询与库存更新</div>
+<pre>
+// 分页查询所有药品（关联分类名）
+public List&lt;Medicine&gt; findAll(int page, int pageSize) {
+    List&lt;Medicine&gt; list = new ArrayList&lt;&gt;();
+    String sql = "SELECT m.*, c.name AS category_name FROM medicines m "
+               + "LEFT JOIN categories c ON m.category_id = c.id "
+               + "ORDER BY m.id DESC LIMIT ?, ?";
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, (page - 1) * pageSize);
+        pstmt.setInt(2, pageSize);
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            list.add(extractMedicine(rs));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+// 库存原子更新（下单减库存，WHERE条件确保不超卖）
+public boolean updateStock(int id, int quantity) {
+    String sql = "UPDATE medicines SET stock = stock - ? WHERE id = ? AND stock >= ?";
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, quantity);
+        pstmt.setInt(2, id);
+        pstmt.setInt(3, quantity);
+        return pstmt.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+</pre>
+
+<h3>4.2.3 OrderDAO — 事务处理</h3>
+<p>OrderDAO 的 createOrder 方法是系统最核心的数据操作，采用JDBC事务确保数据一致性。事务包含4个步骤：插入订单 → 插入订单明细 → 减库存 → 清空购物车，任一步骤失败则全部回滚。</p>
+<div class="code-title">OrderDAO.java — 事务创建订单</div>
+<pre>
+public boolean createOrder(Order order) {
+    Connection conn = null;
+    try {
+        conn = DBUtil.getConnection();
+        conn.setAutoCommit(false);  // 开启事务
+
+        // 1. 插入订单主表
+        String orderSql = "INSERT INTO orders(order_no, user_id, total_amount, "
+            + "status, receiver_name, receiver_phone, receiver_address) "
+            + "VALUES(?, ?, ?, 'pending', ?, ?, ?)";
+        PreparedStatement orderPstmt = conn.prepareStatement(
+            orderSql, Statement.RETURN_GENERATED_KEYS);
+        // ... 设置参数并执行
+        ResultSet rs = orderPstmt.getGeneratedKeys();
+        int orderId = rs.getInt(1);
+
+        // 2. 插入订单明细 + 减库存（循环处理每个商品）
+        for (OrderItem item : order.getItems()) {
+            // 插入明细
+            itemPstmt.addBatch();
+            // 减库存（检查库存是否充足）
+            int affected = stockPstmt.executeUpdate();
+            if (affected == 0) {
+                conn.rollback();
+                return false;  // 库存不足，回滚
+            }
+        }
+        itemPstmt.executeBatch();
+
+        // 3. 清空用户购物车
+        clearPstmt.executeUpdate();
+
+        conn.commit();  // 提交事务
+        return true;
+    } catch (SQLException e) {
+        try { if (conn != null) conn.rollback(); } catch (SQLException ex) {}
+        return false;
+    } finally {
+        try { if (conn != null) { conn.setAutoCommit(true); conn.close(); } }
+        catch (SQLException e) {}
+    }
+}
+</pre>
+
+<h2>4.3 Controller层（控制器）</h2>
+<p>系统共有12个Servlet控制器，通过web.xml显式注册（metadata-complete="true"）。每个Servlet负责处理特定的HTTP请求，调用DAO完成业务逻辑，然后转发到JSP页面渲染。</p>
+
+<table class="data-table">
+    <tr><th>Servlet</th><th>URL映射</th><th>主要功能</th></tr>
+    <tr><td>LoginServlet</td><td>/LoginServlet</td><td>用户登录验证，按角色跳转</td></tr>
+    <tr><td>RegisterServlet</td><td>/RegisterServlet</td><td>用户注册，表单验证</td></tr>
+    <tr><td>LogoutServlet</td><td>/LogoutServlet</td><td>退出登录，销毁Session</td></tr>
+    <tr><td>MedicineListServlet</td><td>/MedicineListServlet</td><td>药品列表、分类筛选、搜索</td></tr>
+    <tr><td>MedicineDetailServlet</td><td>/MedicineDetailServlet</td><td>药品详情页</td></tr>
+    <tr><td>CartServlet</td><td>/CartServlet</td><td>购物车增删改查</td></tr>
+    <tr><td>OrderServlet</td><td>/OrderServlet</td><td>订单创建、查看、付款、取消</td></tr>
+    <tr><td>AdminDashboardServlet</td><td>/admin/AdminDashboardServlet</td><td>后台数据统计</td></tr>
+    <tr><td>AdminMedicineServlet</td><td>/admin/AdminMedicineServlet</td><td>药品管理CRUD</td></tr>
+    <tr><td>AdminUserServlet</td><td>/admin/AdminUserServlet</td><td>用户管理CRUD</td></tr>
+    <tr><td>AdminOrderServlet</td><td>/admin/AdminOrderServlet</td><td>订单管理</td></tr>
+    <tr><td>AdminSalesServlet</td><td>/admin/AdminSalesServlet</td><td>销售统计</td></tr>
+</table>
+
+<h3>4.3.1 LoginServlet — 登录控制器</h3>
+<div class="code-title">LoginServlet.java — 用户登录</div>
+<pre>
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.login(username, password);  // DAO中自动MD5加密比对
+
+        if (user != null) {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", user);
+            // 根据角色跳转不同页面
+            if ("admin".equals(user.getRole())) {
+                resp.sendRedirect(req.getContextPath() + "/admin/index.jsp");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            }
+        } else {
+            req.setAttribute("error", "用户名或密码错误！");
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        }
+    }
+}
+</pre>
+
+<h3>4.3.2 OrderServlet — 订单控制器</h3>
+<p>OrderServlet 处理订单的完整生命周期：查看列表、查看详情、结算、付款、取消。支持从购物车下单和直接购买两种模式。</p>
+<div class="code-title">OrderServlet.java — 订单创建（从购物车）</div>
+<pre>
+if ("create".equals(action)) {
+    CartDAO cartDAO = new CartDAO();
+    List&lt;CartItem&gt; cartItems = cartDAO.findByUser(user.getId());
+
+    if (cartItems.isEmpty()) {
+        resp.getWriter().write("&lt;script&gt;alert('购物车为空');...&lt;/script&gt;");
+        return;
+    }
+
+    // 构建订单
+    Order order = new Order();
+    order.setOrderNo(OrderDAO.generateOrderNo());  // 生成订单号
+    order.setUserId(user.getId());
+
+    double totalAmount = 0;
+    for (CartItem cartItem : cartItems) {
+        OrderItem oi = new OrderItem();
+        oi.setMedicineId(cartItem.getMedicineId());
+        oi.setMedicineName(cartItem.getMedicineName());
+        oi.setQuantity(cartItem.getQuantity());
+        oi.setPrice(cartItem.getMedicinePrice());
+        order.getItems().add(oi);
+        totalAmount += oi.getSubtotal();
+    }
+    order.setTotalAmount(totalAmount);
+
+    // 设置收货信息（优先使用表单提交的值）
+    order.setReceiverName(req.getParameter("receiverName") != null
+        ? req.getParameter("receiverName") : user.getRealname());
+    // ... 电话、地址同理
+
+    OrderDAO orderDAO = new OrderDAO();
+    if (orderDAO.createOrder(order)) {
+        resp.getWriter().write("&lt;script&gt;alert('下单成功！');...&lt;/script&gt;");
+    } else {
+        resp.getWriter().write("&lt;script&gt;alert('下单失败，库存不足');...&lt;/script&gt;");
+    }
+}
+</pre>
+
+<h2>4.4 Filter层（过滤器）</h2>
+<p>系统通过3个Filter + 1个编码Filter实现了统一的编码处理、权限控制和购物车数量注入。Filter的执行顺序由web.xml中的注册顺序决定。</p>
+
+<table class="data-table">
+    <tr><th>Filter</th><th>拦截路径</th><th>功能说明</th></tr>
+    <tr><td>EncodingFilter</td><td>/*</td><td>统一设置UTF-8编码，防止中文乱码</td></tr>
+    <tr><td>AuthFilter</td><td>/cart/*, /order/*, /admin/*</td><td>检查用户是否已登录，未登录跳转登录页</td></tr>
+    <tr><td>AdminFilter</td><td>/admin/*</td><td>检查用户角色是否为admin，非管理员拒绝访问</td></tr>
+    <tr><td>CartFilter</td><td>/*</td><td>为所有页面注入购物车数量，供header徽章显示</td></tr>
+</table>
+
+<h3>4.4.1 EncodingFilter — 编码过滤器</h3>
+<div class="code-title">EncodingFilter.java</div>
+<pre>
+@WebFilter("/*")
+public class EncodingFilter implements Filter {
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
+
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html;charset=UTF-8");
+
+        chain.doFilter(req, resp);
+    }
+}
+</pre>
+
+<h3>4.4.2 AuthFilter — 登录验证过滤器</h3>
+<p>AuthFilter 维护一个公开路径白名单，药品浏览、登录注册等页面不需要登录即可访问，购物车、订单、后台管理则需要先登录。</p>
+<div class="code-title">AuthFilter.java</div>
+<pre>
+@WebFilter("/*")
+public class AuthFilter implements Filter {
+    private static final String[] PUBLIC_PATHS = {
+        "/", "/index.jsp", "/login.jsp", "/register.jsp",
+        "/css/", "/error/", "/medicine/",
+        "/LoginServlet", "/RegisterServlet",
+        "/MedicineListServlet", "/MedicineDetailServlet"
+    };
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        String path = req.getRequestURI().substring(req.getContextPath().length());
+
+        if (isPublicPath(path)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            req.getSession().setAttribute("error", "请先登录后再进行操作");
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        chain.doFilter(request, response);
+    }
+}
+</pre>
+
+<h3>4.4.3 AdminFilter — 管理员权限过滤器</h3>
+<div class="code-title">AdminFilter.java</div>
+<pre>
+@WebFilter("/admin/*")
+public class AdminFilter implements Filter {
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
+        HttpSession session = req.getSession(false);
+
+        if (session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        User user = (User) session.getAttribute("user");
+        if (!"admin".equals(user.getRole())) {
+            resp.setContentType("text/html;charset=UTF-8");
+            resp.getWriter().write("&lt;script&gt;alert('没有管理员权限！');history.back();&lt;/script&gt;");
+            return;
+        }
+
+        chain.doFilter(request, response);
+    }
+}
+</pre>
+
+<h2>4.5 View层（JSP页面）</h2>
+<p>系统共有27个JSP页面，按功能分为以下几组。所有页面通过JSP的include指令复用公共模块，减少代码重复。</p>
+
+<table class="data-table">
+    <tr><th>目录</th><th>页面</th><th>说明</th></tr>
+    <tr><td>根目录</td><td>index.jsp, login.jsp, register.jsp</td><td>首页、登录、注册</td></tr>
+    <tr><td>common/</td><td>head.jsp, header.jsp, footer.jsp, admin-sidebar.jsp</td><td>公共组件</td></tr>
+    <tr><td>medicine/</td><td>list.jsp, detail.jsp, search.jsp</td><td>药品列表、详情、搜索</td></tr>
+    <tr><td>cart/</td><td>list.jsp</td><td>购物车页面</td></tr>
+    <tr><td>order/</td><td>list.jsp, detail.jsp, checkout.jsp</td><td>订单列表、详情、结算</td></tr>
+    <tr><td>admin/</td><td>dashboard.jsp, medicine_list/add/edit, user_list/add/edit, order_list/detail, sales.jsp</td><td>后台管理</td></tr>
+    <tr><td>error/</td><td>404.jsp, 500.jsp</td><td>错误页面</td></tr>
+</table>
+
+<h3>4.5.1 公共模块复用</h3>
+<p>所有JSP页面通过 <code>&lt;%@ include file="..." %&gt;</code> 指令静态包含公共模块：</p>
+<div class="code-title">JSP页面公共模块引用</div>
+<pre>
+&lt;%@ include file="common/head.jsp" %&gt;     &lt;!-- meta、CSS、Font Awesome --&gt;
+&lt;%@ include file="/common/header.jsp" %&gt;  &lt;!-- 导航栏（含登录状态、购物车徽章）--&gt;
+&lt;%@ include file="/common/footer.jsp" %&gt;   &lt;!-- 页脚版权信息 --&gt;
+</pre>
+
+<h3>4.5.2 药品列表页</h3>
+<p>药品列表页采用表格布局展示药品信息，左侧为分类侧边栏，右侧为药品表格。每行药品可直接输入数量并加入购物车。</p>
+<div class="code-title">medicine/list.jsp — 药品表格</div>
+<pre>
+&lt;table class="med-table"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;ID&lt;/th&gt;
+            &lt;th&gt;药品名称&lt;/th&gt;
+            &lt;th&gt;单价(元)&lt;/th&gt;
+            &lt;th&gt;当前库存&lt;/th&gt;
+            &lt;th&gt;购买数量&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;% for (Medicine med : medicines) { %&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;%=med.getId()%&gt;&lt;/td&gt;
+            &lt;td class="td-name"&gt;
+                &lt;%=med.getName()%&gt;
+                &lt;%=med.getIsPrescription() == 1
+                    ? "&lt;span style='color:#ef4444'&gt;[处方]&lt;/span&gt;"
+                    : "&lt;span style='color:#22c55e'&gt;[OTC]&lt;/span&gt;"%&gt;
+            &lt;/td&gt;
+            &lt;td class="price"&gt;¥&lt;%=String.format("%.2f", med.getPrice())%&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;%=med.getStock()%&gt;&lt;/td&gt;
+            &lt;td&gt;
+                &lt;% if (user != null && med.getStock() > 0) { %&gt;
+                    &lt;form action="CartServlet" method="post"&gt;
+                        &lt;input type="number" name="quantity" value="1"
+                               min="1" max="&lt;%=med.getStock()%&gt;"&gt;
+                        &lt;button type="submit" class="btn-cart"&gt;加入购物车&lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;% } %&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;% } %&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</pre>
+
+<h2>4.6 前端设计</h2>
+<p>系统前端采用 CSS3 自定义样式（v4.0），不依赖任何UI框架，实现了现代化的视觉设计。</p>
+
+<h3>4.6.1 CSS变量体系</h3>
+<p>通过CSS自定义属性（CSS Variables）统一管理颜色、阴影、圆角等设计令牌，便于全局主题调整：</p>
+<div class="code-title">style.css — CSS变量定义</div>
+<pre>
+:root {
+    --primary: #4f6ef7;
+    --primary-light: #6c8af7;
+    --primary-dark: #3b56d4;
+    --primary-bg: #eef2ff;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    /* 三层立体阴影体系 */
+    --shadow-card: 0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-card-hover: 0 12px 32px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
+    --shadow-section: 0 8px 30px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05);
+    /* 圆角 */
+    --radius-sm: 8px;
+    --radius: 12px;
+    --radius-lg: 16px;
+    /* 过渡动画 */
+    --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+</pre>
+
+<h3>4.6.2 响应式布局</h3>
+<p>系统采用Flexbox布局，通过媒体查询实现响应式适配：</p>
+<div class="code-title">响应式断点</div>
+<pre>
+/* 大屏：4列药品卡片 */
+@media (min-width: 1024px) { .card-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* 平板：3列 */
+@media (max-width: 1023px) { .card-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* 手机：1列，隐藏侧边栏 */
+@media (max-width: 720px) {
+    .card-grid { grid-template-columns: 1fr; }
+    .sidebar-box { display: none; }
+    .med-table { font-size: 13px; }
+}
+</pre>
+
+<h3>4.6.3 首页Hero动画</h3>
+<p>首页采用渐变色Hero区域，浮动装饰圆形配合CSS动画营造层次感，特色卡片浮动在Hero上方：</p>
+<div class="code-title">首页Hero样式</div>
+<pre>
+.home-hero {
+    background: linear-gradient(135deg, #4f6ef7 0%, #764ba2 100%);
+    color: #fff;
+    padding: 90px 24px 110px;
+    position: relative;
+    overflow: hidden;
+}
+.home-hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    animation: heroFloat 6s ease-in-out infinite;
+}
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+}
+/* 特色卡片浮动在Hero上方 */
+.home-features {
+    margin-top: -60px;
+    position: relative;
+    z-index: 10;
+}
+</pre>
+
+
+<!-- ========== 第五章 ========== -->
+<h1>五、关键技术实现</h1>
+
+<h2>5.1 事务处理</h2>
+<p>订单创建是系统最关键的业务操作，涉及订单表、订单明细表、药品库存表、购物车表四张表的联动修改。通过JDBC事务（setAutoCommit(false) + commit/rollback）确保数据一致性：</p>
+<pre>
+conn.setAutoCommit(false);              // 开启事务
+  ① INSERT INTO orders ...             // 插入订单
+  ② INSERT INTO order_items ... (循环)  // 插入明细
+  ③ UPDATE medicines SET stock=stock-?  // 减库存（检查超卖）
+  ④ DELETE FROM cart_items ...          // 清空购物车
+conn.commit();                          // 全部成功 → 提交
+  -- 或 conn.rollback();                -- 任一步骤失败 → 回滚
+</pre>
+<div class="note">
+<strong>防超卖设计：</strong>减库存SQL使用 <code>WHERE id=? AND stock&gt;=?</code> 条件，确保库存不足时UPDATE影响行数为0，此时触发回滚，防止超卖。
+</div>
+
+<h2>5.2 密码加密</h2>
+<p>用户密码采用MD5算法加密后存储，登录验证时对输入密码同样进行MD5加密后比对。MD5Util工具类封装了加密和验证逻辑：</p>
+<div class="code-title">MD5Util.java — 密码加密工具</div>
+<pre>
+public class MD5Util {
+    public static String md5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] bytes = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : bytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();  // 32位小写十六进制
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("MD5加密失败", e);
+        }
+    }
+
+    public static boolean verify(String input, String encrypted) {
+        return md5(input).equals(encrypted);
+    }
+}
+</pre>
+
+<h2>5.3 分页与搜索</h2>
+<p>药品列表支持分页浏览和关键词搜索。分页采用MySQL的LIMIT子句，搜索支持药品名称、生产厂家、描述三个字段的模糊匹配：</p>
+<div class="code-title">分页搜索SQL</div>
+<pre>
+-- 分页查询（关联分类名）
+SELECT m.*, c.name AS category_name
+FROM medicines m
+LEFT JOIN categories c ON m.category_id = c.id
+ORDER BY m.id DESC
+LIMIT ?, ?   -- offset=(page-1)*pageSize, count=pageSize
+
+-- 关键词搜索（多字段模糊匹配）
+SELECT m.*, c.name AS category_name
+FROM medicines m
+LEFT JOIN categories c ON m.category_id = c.id
+WHERE m.name LIKE ? OR m.manufacturer LIKE ? OR m.description LIKE ?
+ORDER BY m.id DESC
+LIMIT ?, ?
+</pre>
+
+<h2>5.4 权限控制</h2>
+<p>系统采用基于角色的访问控制（RBAC），通过Filter链实现多层权限校验：</p>
+<pre>
+请求进入
+  → EncodingFilter（编码处理，所有请求）
+  → CartFilter（购物车数量注入，所有请求）
+  → AuthFilter（登录验证，仅/cart/*, /order/*, /admin/*）
+  → AdminFilter（管理员验证，仅/admin/*）
+  → Servlet（业务处理）
+</pre>
+<p>权限分为两级：</p>
+<ul class="bullet">
+    <li><strong>普通用户（user）：</strong>可浏览药品、管理购物车、管理自己的订单</li>
+    <li><strong>管理员（admin）：</strong>拥有普通用户所有权限，额外可访问后台管理所有功能</li>
+</ul>
+
+
+<!-- ========== 第六章 ========== -->
+<h1>六、系统测试</h1>
+
+<h2>6.1 测试环境</h2>
+<table class="info-table">
+    <tr><th>操作系统</th><td>Windows 11</td></tr>
+    <tr><th>JDK</th><td>Oracle JDK 1.8 (D:\jdk)</td></tr>
+    <tr><th>Web服务器</th><td>Apache Tomcat 9.0.21</td></tr>
+    <tr><th>数据库</th><td>MySQL 8.0</td></tr>
+    <tr><th>浏览器</th><td>Google Chrome / Microsoft Edge</td></tr>
+    <tr><th>访问地址</th><td>http://localhost:8080/</td></tr>
+</table>
+
+<h2>6.2 功能测试用例</h2>
+
+<table class="data-table">
+    <tr><th>编号</th><th>测试模块</th><th>测试操作</th><th>预期结果</th><th>实际结果</th></tr>
+    <tr><td>TC-01</td><td>用户注册</td><td>填写完整信息提交注册</td><td>注册成功，跳转登录页</td><td>通过</td></tr>
+    <tr><td>TC-02</td><td>用户注册</td><td>两次密码不一致</td><td>提示"两次输入的密码不一致"</td><td>通过</td></tr>
+    <tr><td>TC-03</td><td>用户注册</td><td>用户名已存在</td><td>提示"用户名已存在"</td><td>通过</td></tr>
+    <tr><td>TC-04</td><td>用户登录</td><td>正确的用户名和密码</td><td>登录成功，按角色跳转</td><td>通过</td></tr>
+    <tr><td>TC-05</td><td>用户登录</td><td>错误的密码</td><td>提示"用户名或密码错误"</td><td>通过</td></tr>
+    <tr><td>TC-06</td><td>药品浏览</td><td>查看全部药品</td><td>显示15种药品，分页正常</td><td>通过</td></tr>
+    <tr><td>TC-07</td><td>药品浏览</td><td>按分类筛选</td><td>仅显示所选分类的药品</td><td>通过</td></tr>
+    <tr><td>TC-08</td><td>药品搜索</td><td>输入"感冒"搜索</td><td>显示包含"感冒"关键词的药品</td><td>通过</td></tr>
+    <tr><td>TC-09</td><td>购物车</td><td>添加药品到购物车</td><td>购物车数量徽章更新</td><td>通过</td></tr>
+    <tr><td>TC-10</td><td>购物车</td><td>修改数量为0</td><td>自动删除该购物车项</td><td>通过</td></tr>
+    <tr><td>TC-11</td><td>订单创建</td><td>从购物车结算下单</td><td>订单创建成功，购物车清空</td><td>通过</td></tr>
+    <tr><td>TC-12</td><td>订单创建</td><td>库存不足时下单</td><td>下单失败，提示库存不足</td><td>通过</td></tr>
+    <tr><td>TC-13</td><td>订单付款</td><td>点击付款按钮</td><td>订单状态变为"已付款"，记录付款时间</td><td>通过</td></tr>
+    <tr><td>TC-14</td><td>订单取消</td><td>取消已付款订单</td><td>状态变为"已取消"，库存恢复</td><td>通过</td></tr>
+    <tr><td>TC-15</td><td>直接购买</td><td>药品详情页直接购买</td><td>直接生成订单，不影响购物车</td><td>通过</td></tr>
+    <tr><td>TC-16</td><td>权限控制</td><td>未登录访问购物车</td><td>跳转登录页，提示"请先登录"</td><td>通过</td></tr>
+    <tr><td>TC-17</td><td>权限控制</td><td>普通用户访问后台</td><td>提示"没有管理员权限"</td><td>通过</td></tr>
+    <tr><td>TC-18</td><td>后台管理</td><td>管理员添加药品</td><td>药品添加成功，列表更新</td><td>通过</td></tr>
+    <tr><td>TC-19</td><td>后台管理</td><td>管理员编辑用户角色</td><td>用户角色修改成功</td><td>通过</td></tr>
+    <tr><td>TC-20</td><td>销售统计</td><td>查看销售统计页</td><td>显示销售额、订单数、药品排行</td><td>通过</td></tr>
+</table>
+
+<h2>6.3 测试结论</h2>
+<p>经过对系统各功能模块的全面测试，所有20个测试用例均通过。系统在用户注册登录、药品浏览搜索、购物车管理、订单处理、权限控制、后台管理等方面均表现正常，事务处理保证了数据一致性，权限过滤器有效防止了越权访问，达到了预期设计目标。</p>
+
+
+<!-- ========== 第七章 ========== -->
+<h1>七、总结与体会</h1>
+
+<h2>7.1 项目成果</h2>
+<p>本次课程设计完成了一个功能完整的在线药品收费系统，涵盖了Java Web开发的核心技术栈。系统实现了用户注册登录、药品浏览搜索、购物车管理、订单处理（含事务）、后台管理（含数据统计）等完整功能，代码结构遵循MVC设计模式，分为Model、DAO、Controller、Filter、View五层，共编写了29个Java类和27个JSP页面。</p>
+
+<p>项目的主要技术成果包括：</p>
+<ul class="bullet">
+    <li>完整的MVC架构实践：Model层6个实体类、DAO层5个数据访问类、Controller层12个Servlet、Filter层3个过滤器</li>
+    <li>JDBC事务处理：订单创建采用事务确保4张表的数据一致性，包含防超卖机制</li>
+    <li>过滤器链设计：编码过滤、登录验证、管理员权限控制、购物车数量注入</li>
+    <li>密码安全：MD5加密存储，登录验证不泄露明文密码</li>
+    <li>前端工程化：CSS变量体系、响应式布局、动画效果、公共组件复用</li>
+    <li>数据库设计：6张表、外键约束、快照字段设计</li>
+</ul>
+
+<h2>7.2 开发过程中的问题与解决</h2>
+<p>在开发过程中遇到了多个技术问题，通过查阅资料和调试逐一解决：</p>
+
+<h3>7.2.1 中文乱码问题</h3>
+<p>问题：JSP页面和数据库交互时出现中文乱码。解决：通过EncodingFilter统一设置UTF-8编码，JSP页面添加pageEncoding="UTF-8"声明，数据库连接URL添加characterEncoding=utf-8参数，MySQL数据库和表使用utf8字符集。</p>
+
+<h3>7.2.2 MySQL 8.0认证问题</h3>
+<p>问题：MySQL 8.0默认使用caching_sha2_password认证插件，JDBC 5.1驱动连接失败。解决：在JDBC连接URL中添加allowPublicKeyRetrieval=true参数。</p>
+
+<h3>7.2.3 Filter注解不生效</h3>
+<p>问题：web.xml中设置了metadata-complete="true"，导致@WebServlet和@WebFilter注解不被扫描。解决：在web.xml中显式注册所有Servlet和Filter的映射关系。</p>
+
+<h3>7.2.4 订单取消库存恢复</h3>
+<p>问题：取消已付款订单时库存未恢复。解决：在OrderDAO.updateStatus()方法中，当状态为"cancelled"时，先查询订单明细，循环恢复每种药品的库存。</p>
+
+<h3>7.2.5 空指针异常防护</h3>
+<p>问题：OrderDAO的finally块中conn.close()未做null检查。解决：将conn.close()移入if(conn!=null)代码块内，确保异常情况下不会产生NPE。</p>
+
+<h2>7.3 学习体会</h2>
+<p>通过本次课程设计，我对Java Web开发有了更加深入的理解和实践。主要收获如下：</p>
+<ol class="numbered">
+    <li><strong>MVC设计模式的深入理解：</strong>通过实际项目开发，深刻体会到MVC分层架构带来的好处——代码结构清晰、职责分离、易于维护。Model层专注于数据结构，DAO层封装数据库操作，Controller层处理业务逻辑，View层负责展示，各层之间通过接口通信，降低了耦合度。</li>
+    <li><strong>JDBC事务的重要性：</strong>在实现订单创建功能时，深刻认识到事务处理的重要性。如果不用事务，当减库存成功但清空购物车失败时，就会出现数据不一致。通过setAutoCommit(false)和commit/rollback机制，确保了多表操作的原子性。</li>
+    <li><strong>Filter的灵活运用：</strong>Filter不仅用于编码过滤，还能实现权限控制、日志记录、数据预处理等功能。本系统通过4个Filter实现了编码统一、登录验证、权限控制、购物车数量注入，大大简化了Servlet中的重复代码。</li>
+    <li><strong>前端工程化思维：</strong>虽然使用的是JSP而非现代前端框架，但通过CSS变量体系、公共组件复用、响应式布局等实践，体会到了前端工程化的重要性。好的UI设计不仅关乎美观，更影响用户体验。</li>
+    <li><strong>调试与问题解决能力：</strong>在开发过程中遇到了各种问题（乱码、端口冲突、类版本不兼容等），通过查阅文档、分析日志、逐步调试，培养了解决复杂技术问题的能力。</li>
+</ol>
+
+<h2>7.4 不足与展望</h2>
+<p>由于时间和能力所限，系统仍存在一些可以改进的方面：</p>
+<ul class="bullet">
+    <li>密码加密使用MD5，安全性较低，可升级为BCrypt或PBKDF2</li>
+    <li>缺少支付接口集成，目前为模拟付款</li>
+    <li>未实现文件上传功能（如药品图片）</li>
+    <li>缺少数据导出功能（Excel/PDF报表）</li>
+    <li>前端可引入Ajax实现异步交互，提升用户体验</li>
+    <li>可添加邮件通知功能（订单确认、发货通知等）</li>
+</ul>
+
+
+<!-- ========== 第八章 ========== -->
+<h1>八、参考文献</h1>
+<ol class="numbered">
+    <li>耿祥义, 张跃平. Java Web基础编程[M]. 北京: 清华大学出版社, 2021.</li>
+    <li>李兴华. Java Web开发实战经典[M]. 北京: 清华大学出版社, 2020.</li>
+    <li>郭克华. Java Web程序设计[M]. 北京: 人民邮电出版社, 2019.</li>
+    <li>Oracle Corporation. The Java EE Tutorial[EB/OL]. https://docs.oracle.com/javaee/7/tutorial/</li>
+    <li>Apache Software Foundation. Apache Tomcat 9 Documentation[EB/OL]. https://tomcat.apache.org/tomcat-9.0-doc/</li>
+    <li>Oracle Corporation. MySQL 8.0 Reference Manual[EB/OL]. https://dev.mysql.com/doc/refman/8.0/en/</li>
+    <li>MDN Web Docs. CSS Custom Properties[EB/OL]. https://developer.mozilla.org/zh-CN/docs/Web/CSS/--*</li>
+</ol>
+
+</div>
+
+</body>
+</html>

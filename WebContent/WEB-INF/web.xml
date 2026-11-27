@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         id="WebApp_ID" version="3.1"
+         metadata-complete="true">
+
+    <display-name>MedicineSystem</display-name>
+    <description>在线药品收费系统</description>
+
+    <!-- ==================== 欢迎页 ==================== -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- ==================== 字符编码过滤器 ==================== -->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.medicine.util.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- ==================== 登录验证过滤器 ==================== -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.medicine.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/cart/*</url-pattern>
+        <url-pattern>/order/*</url-pattern>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <!-- ==================== 管理员权限过滤器 ==================== -->
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>com.medicine.filter.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <!-- ==================== 购物车数量过滤器 ==================== -->
+    <filter>
+        <filter-name>CartFilter</filter-name>
+        <filter-class>com.medicine.filter.CartFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CartFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- ==================== Servlet 映射 ==================== -->
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.medicine.controller.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>com.medicine.controller.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.medicine.controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MedicineListServlet</servlet-name>
+        <servlet-class>com.medicine.controller.MedicineListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicineListServlet</servlet-name>
+        <url-pattern>/MedicineListServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MedicineDetailServlet</servlet-name>
+        <servlet-class>com.medicine.controller.MedicineDetailServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicineDetailServlet</servlet-name>
+        <url-pattern>/MedicineDetailServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>com.medicine.controller.CartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/CartServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>com.medicine.controller.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/OrderServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <servlet-class>com.medicine.controller.AdminDashboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <url-pattern>/admin/AdminDashboardServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminMedicineServlet</servlet-name>
+        <servlet-class>com.medicine.controller.AdminMedicineServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminMedicineServlet</servlet-name>
+        <url-pattern>/admin/AdminMedicineServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminUserServlet</servlet-name>
+        <servlet-class>com.medicine.controller.AdminUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminUserServlet</servlet-name>
+        <url-pattern>/admin/AdminUserServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminOrderServlet</servlet-name>
+        <servlet-class>com.medicine.controller.AdminOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminOrderServlet</servlet-name>
+        <url-pattern>/admin/AdminOrderServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminSalesServlet</servlet-name>
+        <servlet-class>com.medicine.controller.AdminSalesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminSalesServlet</servlet-name>
+        <url-pattern>/admin/AdminSalesServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- ==================== Session 配置 ==================== -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <!-- ==================== 错误页面 ==================== -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error/500.jsp</location>
+    </error-page>
+
+</web-app>

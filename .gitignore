@@ -1,0 +1,24 @@
+# 构建产物
+build/
+bin/
+out/
+*.war
+*.class
+
+# 依赖 jar（按 README 说明自行下载）
+WebContent/WEB-INF/lib/*.jar
+
+# IDE
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+
+# 运行日志
+*.log
+
+# 系统
+Thumbs.db
+desktop.ini
+.DS_Store
